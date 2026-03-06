@@ -33,7 +33,7 @@ function SearchIcon() {
 
 function Navbar({ onMobileMenuOpen, sidebarCollapsed, onSidebarToggle }) {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, logout, isAdministrator } = useAuth();
   const [profileOpen, setProfileOpen] = useState(false);
   const [searchVal, setSearchVal]     = useState('');
 
@@ -50,7 +50,14 @@ function Navbar({ onMobileMenuOpen, sidebarCollapsed, onSidebarToggle }) {
 
   const userName = user?.name || 'User';
   const userEmail = user?.email || 'user@infrainfo.io';
+  const userRole = user?.role || 'User';
+  const userRoleType = user?.roleType || 'User';
   const userInitials = getInitials(userName);
+  
+  // Role badge color
+  const roleBadgeStyle = isAdministrator 
+    ? { background: '#dbeafe', color: '#1e40af', border: '1px solid #93c5fd' }
+    : { background: '#d1fae5', color: '#065f46', border: '1px solid #6ee7b7' };
 
   return (
     <header className="app-topbar">
@@ -132,19 +139,64 @@ function Navbar({ onMobileMenuOpen, sidebarCollapsed, onSidebarToggle }) {
 
           {profileOpen && (
             <div className="profile-dropdown anim-dropdown" role="menu">
-              <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--neutral-border)' }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--primary-900)' }}>{userName}</div>
-                <div style={{ fontSize: 11.5, color: 'var(--neutral-muted)', marginTop: 2 }}>{userEmail}</div>
+              <div style={{ padding: '0.875rem 1rem', borderBottom: '1px solid var(--neutral-border)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--primary-900)' }}>{userName}</div>
+                  <span style={{
+                    ...roleBadgeStyle,
+                    padding: '0.125rem 0.5rem',
+                    borderRadius: '9999px',
+                    fontSize: 10,
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>
+                    {isAdministrator ? '🛡️ ADMIN' : '👤 USER'}
+                  </span>
+                </div>
+                <div style={{ fontSize: 12, color: 'var(--neutral-600)', marginBottom: '0.25rem' }}>{userRole}</div>
+                <div style={{ fontSize: 11, color: 'var(--neutral-muted)' }}>{userEmail}</div>
               </div>
-              <button type="button" className="profile-dropdown-item" role="menuitem" onClick={() => { setProfileOpen(false); navigate('/profile'); }}>
-                👤 &nbsp;Profile
+              <button 
+                type="button" 
+                className="profile-dropdown-item" 
+                role="menuitem" 
+                onClick={() => { 
+                  setProfileOpen(false); 
+                  navigate('/user-profile'); 
+                }}
+              >
+                👤 &nbsp;My Profile
               </button>
-              <button type="button" className="profile-dropdown-item" role="menuitem" onClick={() => { setProfileOpen(false); navigate('/settings'); }}>
-                ⚙️ &nbsp;Preferences
-              </button>
+              {isAdministrator && (
+                <>
+                  <button 
+                    type="button" 
+                    className="profile-dropdown-item" 
+                    role="menuitem" 
+                    onClick={() => { 
+                      setProfileOpen(false); 
+                      navigate('/settings'); 
+                    }}
+                  >
+                    ⚙️ &nbsp;System Settings
+                  </button>
+                  <button 
+                    type="button" 
+                    className="profile-dropdown-item" 
+                    role="menuitem" 
+                    onClick={() => { 
+                      setProfileOpen(false); 
+                      navigate('/administration'); 
+                    }}
+                  >
+                    👥 &nbsp;User Management
+                  </button>
+                </>
+              )}
               <div style={{ height: 1, background: 'var(--neutral-border)', margin: '0.25rem 0' }} />
               <button type="button" className="profile-dropdown-item danger" role="menuitem" onClick={handleSignOut}>
-                🚪 &nbsp;Sign out
+                🚪 &nbsp;Sign Out
               </button>
             </div>
           )}

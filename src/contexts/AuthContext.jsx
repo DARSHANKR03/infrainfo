@@ -3,34 +3,105 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const AuthContext = createContext(null);
 
 // Mock user database - In production, this would be handled by backend
+// Two main roles: Administrator (full control) and User (limited access)
 const MOCK_USERS = [
+  // Administrator Accounts - Full System Control
   {
     email: 'admin@infrainfo.io',
     password: 'admin123',
     name: 'A. Kumar',
-    role: 'System Administrator',
-    employeeId: 'EMP-001'
+    role: 'Administrator',
+    roleType: 'Administrator',
+    employeeId: 'ADMIN-001',
+    city: 'All Cities',
+    permissions: {
+      userManagement: true,
+      assetCreation: true,
+      ruleConfiguration: true,
+      systemSettings: true,
+      fullAccess: true
+    }
   },
   {
-    email: 'engineer@infrainfo.io',
-    password: 'engineer123',
+    email: 'admin2@infrainfo.io',
+    password: 'admin123',
+    name: 'S. Verma',
+    role: 'Administrator',
+    roleType: 'Administrator',
+    employeeId: 'ADMIN-002',
+    city: 'Bangalore',
+    permissions: {
+      userManagement: true,
+      assetCreation: true,
+      ruleConfiguration: true,
+      systemSettings: true,
+      fullAccess: true
+    }
+  },
+  
+  // User Accounts - Limited Access (Inspectors, Analysts, Field Engineers)
+  {
+    email: 'user@infrainfo.io',
+    password: 'user123',
     name: 'R. Patel',
     role: 'Field Engineer',
-    employeeId: 'EMP-002'
-  },
-  {
-    email: 'manager@infrainfo.io',
-    password: 'manager123',
-    name: 'S. Singh',
-    role: 'Operations Manager',
-    employeeId: 'EMP-003'
+    roleType: 'User',
+    employeeId: 'USER-001',
+    city: 'Bangalore',
+    assignedAssets: ['AST-001', 'AST-002', 'AST-005'],
+    permissions: {
+      userManagement: false,
+      assetCreation: false,
+      assetViewing: true,
+      inspectionEntry: true,
+      ruleConfiguration: false,
+      alertMonitoring: true,
+      maintenanceHandling: true,
+      systemSettings: false,
+      fullAccess: false
+    }
   },
   {
     email: 'inspector@infrainfo.io',
     password: 'inspector123',
     name: 'M. Sharma',
     role: 'Inspector',
-    employeeId: 'EMP-004'
+    roleType: 'User',
+    employeeId: 'USER-002',
+    city: 'Mumbai',
+    assignedAssets: ['AST-003', 'AST-006', 'AST-007'],
+    permissions: {
+      userManagement: false,
+      assetCreation: false,
+      assetViewing: true,
+      inspectionEntry: true,
+      ruleConfiguration: false,
+      alertMonitoring: true,
+      maintenanceHandling: true,
+      systemSettings: false,
+      fullAccess: false
+    }
+  },
+  {
+    email: 'analyst@infrainfo.io',
+    password: 'analyst123',
+    name: 'P. Singh',
+    role: 'Data Analyst',
+    roleType: 'User',
+    employeeId: 'USER-003',
+    city: 'Delhi',
+    assignedAssets: ['AST-004', 'AST-008'],
+    permissions: {
+      userManagement: false,
+      assetCreation: false,
+      assetViewing: true,
+      inspectionEntry: true,
+      ruleConfiguration: false,
+      alertMonitoring: true,
+      maintenanceHandling: false,
+      systemSettings: false,
+      fullAccess: false
+    }
   }
 ];
 
@@ -82,6 +153,9 @@ export function AuthProvider({ children }) {
     login,
     logout,
     isAuthenticated: !!user,
+    isAdministrator: user?.roleType === 'Administrator',
+    isUser: user?.roleType === 'User',
+    hasPermission: (permission) => user?.permissions?.[permission] || false,
     loading
   };
 
@@ -94,6 +168,15 @@ export function useAuth() {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
+}
+
+// Helper function for role checking
+export function hasAdminRole(user) {
+  return user?.roleType === 'Administrator';
+}
+
+export function hasUserRole(user) {
+  return user?.roleType === 'User';
 }
 
 // Export mock users for admin reference

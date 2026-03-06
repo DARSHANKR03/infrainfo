@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import { sidebarMenu } from './sidebarMenu';
+import { useAuth } from '../../contexts/AuthContext';
+import { administratorMenu, userMenu } from './sidebarMenu';
 
 function CollapseIcon({ collapsed }) {
   return (
@@ -21,6 +22,11 @@ function CollapseIcon({ collapsed }) {
 }
 
 function Sidebar({ collapsed, mobileOpen, onMobileClose }) {
+  const { user, isAdministrator } = useAuth();
+  
+  // Select menu based on user role
+  const menu = isAdministrator ? administratorMenu : userMenu;
+  
   const sidebarClass = [
     'app-sidebar',
     collapsed     ? 'is-collapsed'    : '',
@@ -36,13 +42,15 @@ function Sidebar({ collapsed, mobileOpen, onMobileClose }) {
         </div>
         <div className="sidebar-brand-text">
           <div className="brand-name">InfraInfo</div>
-          <div className="brand-sub">Health Monitor</div>
+          <div className="brand-sub">
+            {isAdministrator ? 'Administrator' : 'User Portal'}
+          </div>
         </div>
       </div>
 
       {/* Navigation */}
       <nav className="sidebar-nav" role="navigation">
-        {sidebarMenu.map((item) => (
+        {menu.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
@@ -70,7 +78,7 @@ function Sidebar({ collapsed, mobileOpen, onMobileClose }) {
           </span>
           {!collapsed && (
             <span className="sidebar-nav-label" style={{ fontSize: 11, lineHeight: 1.4 }}>
-              © 2026 INFRAINFO
+              {user?.roleType || 'User'} | © 2026
             </span>
           )}
         </div>
@@ -80,4 +88,3 @@ function Sidebar({ collapsed, mobileOpen, onMobileClose }) {
 }
 
 export default Sidebar;
-

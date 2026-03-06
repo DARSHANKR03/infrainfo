@@ -104,12 +104,6 @@ function UserProfilePage() {
               <span className="badge badge-primary">{userData.role}</span>
             </div>
           </div>
-
-          {/* Quick Actions */}
-          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            <Link to="/administration/users/EMP-001/edit" className="tbl-btn">Edit Profile</Link>
-            <button className="tbl-btn tbl-btn-view">Change Password</button>
-          </div>
         </div>
       </div>
 

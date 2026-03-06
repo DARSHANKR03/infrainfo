@@ -1,46 +1,233 @@
+import { getAllParameters } from './thresholdConfig';
+
+// Complete parameter catalog for infrastructure monitoring
 const parameterCatalog = [
+  // Structural Monitoring
   'vibration',
   'temperature',
   'pressure',
   'corrosion',
   'crackWidth',
-  'flowRate'
+  'flowRate',
+  'strain',
+  'displacement',
+  'tiltAngle',
+  'loadStress',
+  
+  // Environmental
+  'humidity',
+  'windLoad',
+  
+  // Piping & Leakage
+  'leakageRate',
+  'pipeThicknessLoss',
+  'pumpEfficiency',
+  
+  // Road Infrastructure
+  'surfaceRoughness',
+  'potholeDensity',
+  
+  // Electrical
+  'voltageLevel',
+  'currentLoad',
+  'powerConsumption',
+  
+  // Operational
+  'maintenanceDelay',
+  'inspectionFrequency',
+  'trafficLoad',
+  'failureFrequency',
+  
+  // Health Indices
+  'healthIndex',
+  'riskScore'
 ];
 
 const operators = ['>', '>=', '<', '<=', '=='];
 
+// Comprehensive rules based on infrastructure monitoring thresholds
 let rules = [
   {
     id: 'RULE-001',
-    name: 'Bridge Structural Stress Rule',
-    description: 'Detects structurally risky bridge conditions from field and sensor values.',
+    name: 'Critical Structural Deterioration',
+    description: 'IF crackWidth > 0.5mm AND vibration > 10mm/s THEN assetHealth = CRITICAL',
     category: 'Bridge',
-    logic: 'OR',
+    logic: 'AND',
     active: true,
-    thresholds: { warning: 35, critical: 65, failed: 85 },
+    thresholds: { warning: 40, critical: 70, failed: 85 },
     conditions: [
-      { id: 'C1', parameter: 'crackWidth', operator: '>', value: 6, weight: 35 },
-      { id: 'C2', parameter: 'corrosion', operator: '>', value: 45, weight: 30 },
-      { id: 'C3', parameter: 'vibration', operator: '>', value: 12, weight: 35 }
+      { id: 'C1', parameter: 'crackWidth', operator: '>', value: 0.5, weight: 50 },
+      { id: 'C2', parameter: 'vibration', operator: '>', value: 10, weight: 50 }
     ],
-    updatedAt: '2026-02-25',
-    updatedBy: 'Engineering Admin'
+    updatedAt: '2026-03-06',
+    updatedBy: 'SHM Engineer'
   },
   {
     id: 'RULE-002',
-    name: 'Pump Overload Rule',
-    description: 'Flags pump station overload and thermal stress conditions.',
-    category: 'Pump Station',
+    name: 'High Pipeline Risk',
+    description: 'IF corrosion > 15% AND pipeThicknessLoss > 10% THEN pipelineRisk = HIGH',
+    category: 'Pipeline',
     logic: 'AND',
     active: true,
-    thresholds: { warning: 30, critical: 60, failed: 80 },
+    thresholds: { warning: 35, critical: 60, failed: 80 },
     conditions: [
-      { id: 'C1', parameter: 'temperature', operator: '>', value: 82, weight: 40 },
-      { id: 'C2', parameter: 'pressure', operator: '>', value: 18, weight: 30 },
-      { id: 'C3', parameter: 'vibration', operator: '>', value: 10, weight: 30 }
+      { id: 'C1', parameter: 'corrosion', operator: '>', value: 15, weight: 55 },
+      { id: 'C2', parameter: 'pipeThicknessLoss', operator: '>', value: 10, weight: 45 }
     ],
-    updatedAt: '2026-02-20',
-    updatedBy: 'Reliability Lead'
+    updatedAt: '2026-03-06',
+    updatedBy: 'Pipeline Inspector'
+  },
+  {
+    id: 'RULE-003',
+    name: 'Asset Failure Detection',
+    description: 'IF healthIndex < 40 THEN status = FAILED and Generate ALERT',
+    category: 'General',
+    logic: 'OR',
+    active: true,
+    thresholds: { warning: 50, critical: 75, failed: 90 },
+    conditions: [
+      { id: 'C1', parameter: 'healthIndex', operator: '<', value: 40, weight: 100 }
+    ],
+    updatedAt: '2026-03-06',
+    updatedBy: 'Asset Manager'
+  },
+  {
+    id: 'RULE-004',
+    name: 'Pump Station Critical Overload',
+    description: 'Detects critical pump station conditions: high temperature, pressure and low efficiency',
+    category: 'Pump Station',
+    logic: 'OR',
+    active: true,
+    thresholds: { warning: 40, critical: 65, failed: 85 },
+    conditions: [
+      { id: 'C1', parameter: 'temperature', operator: '>', value: 60, weight: 30 },
+      { id: 'C2', parameter: 'pressure', operator: '>', value: 15, weight: 30 },
+      { id: 'C3', parameter: 'pumpEfficiency', operator: '<', value: 70, weight: 40 }
+    ],
+    updatedAt: '2026-03-06',
+    updatedBy: 'Maintenance Chief'
+  },
+  {
+    id: 'RULE-005',
+    name: 'Bridge Structural Instability',
+    description: 'Monitors displacement, tilt angle and strain for bridge structural health',
+    category: 'Bridge',
+    logic: 'OR',
+    active: true,
+    thresholds: { warning: 35, critical: 60, failed: 80 },
+    conditions: [
+      { id: 'C1', parameter: 'displacement', operator: '>', value: 10, weight: 35 },
+      { id: 'C2', parameter: 'tiltAngle', operator: '>', value: 1, weight: 35 },
+      { id: 'C3', parameter: 'strain', operator: '>', value: 1000, weight: 30 }
+    ],
+    updatedAt: '2026-03-06',
+    updatedBy: 'Bridge Engineer'
+  },
+  {
+    id: 'RULE-006',
+    name: 'Road Surface Degradation',
+    description: 'Monitors road surface quality through roughness and pothole metrics',
+    category: 'Road',
+    logic: 'OR',
+    active: true,
+    thresholds: { warning: 40, critical: 65, failed: 85 },
+    conditions: [
+      { id: 'C1', parameter: 'surfaceRoughness', operator: '>', value: 5, weight: 50 },
+      { id: 'C2', parameter: 'potholeDensity', operator: '>', value: 15, weight: 50 }
+    ],
+    updatedAt: '2026-03-06',
+    updatedBy: 'Road Maintenance'
+  },
+  {
+    id: 'RULE-007',
+    name: 'Electrical System Overload',
+    description: 'Monitors electrical infrastructure for voltage, current and power anomalies',
+    category: 'Electrical',
+    logic: 'OR',
+    active: true,
+    thresholds: { warning: 40, critical: 70, failed: 90 },
+    conditions: [
+      { id: 'C1', parameter: 'currentLoad', operator: '>', value: 80, weight: 35 },
+      { id: 'C2', parameter: 'powerConsumption', operator: '>', value: 100, weight: 35 },
+      { id: 'C3', parameter: 'voltageLevel', operator: '>', value: 10, weight: 30 }
+    ],
+    updatedAt: '2026-03-06',
+    updatedBy: 'Electrical Engineer'
+  },
+  {
+    id: 'RULE-008',
+    name: 'High Operational Risk',
+    description: 'Identifies assets with poor maintenance and inspection compliance',
+    category: 'Operations',
+    logic: 'OR',
+    active: true,
+    thresholds: { warning: 40, critical: 65, failed: 85 },
+    conditions: [
+      { id: 'C1', parameter: 'maintenanceDelay', operator: '>', value: 30, weight: 40 },
+      { id: 'C2', parameter: 'inspectionFrequency', operator: '>', value: 90, weight: 30 },
+      { id: 'C3', parameter: 'failureFrequency', operator: '>', value: 3, weight: 30 }
+    ],
+    updatedAt: '2026-03-06',
+    updatedBy: 'Operations Manager'
+  },
+  {
+    id: 'RULE-009',
+    name: 'Environmental Stress Alert',
+    description: 'Monitors environmental factors: humidity, wind load affecting infrastructure',
+    category: 'Environmental',
+    logic: 'OR',
+    active: true,
+    thresholds: { warning: 45, critical: 70, failed: 85 },
+    conditions: [
+      { id: 'C1', parameter: 'humidity', operator: '>', value: 75, weight: 40 },
+      { id: 'C2', parameter: 'windLoad', operator: '>', value: 60, weight: 60 }
+    ],
+    updatedAt: '2026-03-06',
+    updatedBy: 'Environmental Monitor'
+  },
+  {
+    id: 'RULE-010',
+    name: 'Critical Load Stress',
+    description: 'Monitors load stress and traffic load for asset capacity management',
+    category: 'Load Management',
+    logic: 'OR',
+    active: true,
+    thresholds: { warning: 40, critical: 70, failed: 85 },
+    conditions: [
+      { id: 'C1', parameter: 'loadStress', operator: '>', value: 70, weight: 60 },
+      { id: 'C2', parameter: 'trafficLoad', operator: '>', value: 85, weight: 40 }
+    ],
+    updatedAt: '2026-03-06',
+    updatedBy: 'Structural Engineer'
+  },
+  {
+    id: 'RULE-011',
+    name: 'Pipeline Leakage Alert',
+    description: 'Monitors pipeline leakage rate and flow rate deviations',
+    category: 'Pipeline',
+    logic: 'OR',
+    active: true,
+    thresholds: { warning: 40, critical: 65, failed: 85 },
+    conditions: [
+      { id: 'C1', parameter: 'leakageRate', operator: '>', value: 5, weight: 60 },
+      { id: 'C2', parameter: 'flowRate', operator: '<', value: 80, weight: 40 }
+    ],
+    updatedAt: '2026-03-06',
+    updatedBy: 'Pipeline Operator'
+  },
+  {
+    id: 'RULE-012',
+    name: 'High Risk Score Alert',
+    description: 'Overall risk assessment based on risk score threshold',
+    category: 'Risk Management',
+    logic: 'OR',
+    active: true,
+    thresholds: { warning: 50, critical: 75, failed: 90 },
+    conditions: [
+      { id: 'C1', parameter: 'riskScore', operator: '>', value: 50, weight: 100 }
+    ],
+    updatedAt: '2026-03-06',
+    updatedBy: 'Risk Manager'
   }
 ];
 
@@ -48,35 +235,97 @@ let ruleVersions = {
   'RULE-001': [
     {
       version: 'v1',
-      changedAt: '2025-12-08',
-      changedBy: 'Engineering Admin',
-      note: 'Initial production threshold baseline.'
-    },
-    {
-      version: 'v2',
-      changedAt: '2026-01-18',
-      changedBy: 'Engineering Admin',
-      note: 'Updated crack width threshold and weights.'
-    },
-    {
-      version: 'v3',
-      changedAt: '2026-02-25',
-      changedBy: 'Engineering Admin',
-      note: 'Added vibration condition and recalibrated failed threshold.'
+      changedAt: '2026-03-06',
+      changedBy: 'SHM Engineer',
+      note: 'Initial rule based on SHM standard thresholds for critical structural deterioration.'
     }
   ],
   'RULE-002': [
     {
       version: 'v1',
-      changedAt: '2026-01-07',
-      changedBy: 'Reliability Lead',
-      note: 'Initial version.'
-    },
+      changedAt: '2026-03-06',
+      changedBy: 'Pipeline Inspector',
+      note: 'Pipeline risk rule based on corrosion and thickness loss thresholds.'
+    }
+  ],
+  'RULE-003': [
     {
-      version: 'v2',
-      changedAt: '2026-02-20',
-      changedBy: 'Reliability Lead',
-      note: 'Changed logic to AND and increased thermal sensitivity.'
+      version: 'v1',
+      changedAt: '2026-03-06',
+      changedBy: 'Asset Manager',
+      note: 'General asset failure detection rule based on health index.'
+    }
+  ],
+  'RULE-004': [
+    {
+      version: 'v1',
+      changedAt: '2026-03-06',
+      changedBy: 'Maintenance Chief',
+      note: 'Comprehensive pump station monitoring rule.'
+    }
+  ],
+  'RULE-005': [
+    {
+      version: 'v1',
+      changedAt: '2026-03-06',
+      changedBy: 'Bridge Engineer',
+      note: 'Bridge structural instability monitoring rule.'
+    }
+  ],
+  'RULE-006': [
+    {
+      version: 'v1',
+      changedAt: '2026-03-06',
+      changedBy: 'Road Maintenance',
+      note: 'Road surface quality assessment rule.'
+    }
+  ],
+  'RULE-007': [
+    {
+      version: 'v1',
+      changedAt: '2026-03-06',
+      changedBy: 'Electrical Engineer',
+      note: 'Electrical system overload detection rule.'
+    }
+  ],
+  'RULE-008': [
+    {
+      version: 'v1',
+      changedAt: '2026-03-06',
+      changedBy: 'Operations Manager',
+      note: 'Operational risk assessment based on maintenance compliance.'
+    }
+  ],
+  'RULE-009': [
+    {
+      version: 'v1',
+      changedAt: '2026-03-06',
+      changedBy: 'Environmental Monitor',
+      note: 'Environmental stress monitoring rule.'
+    }
+  ],
+  'RULE-010': [
+    {
+      version: 'v1',
+      changedAt: '2026-03-06',
+      changedBy: 'Structural Engineer',
+      note: 'Load stress and traffic load monitoring rule.'
+    }
+  ],
+  'RULE-011': [
+    {
+      version: 'v1',
+      changedAt: '2026-03-06',
+      changedBy: 'Pipeline Operator',
+      note: 'Pipeline leakage detection and flow monitoring rule.'
+    }
+  ],
+  'RULE-012': [
+    {
+      version: 'v1',
+      changedAt: '2026-03-06',
+      changedBy: 'Risk Manager',
+      note: 'High-level risk score assessment rule.'
     }
   ]
 };

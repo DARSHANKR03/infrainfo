@@ -2,7 +2,7 @@
   "name": "infrainfo",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "https://DARSHANKR03.github.io/infrainfo",
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",

@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import MainLayout from '../components/layout/MainLayout';
 import ProtectedRoute from '../components/ProtectedRoute';
+import RoleProtectedRoute, { AdminRoute } from '../components/RoleProtectedRoute';
 import LoginPage from '../pages/LoginPage';
 import DashboardPage from '../pages/DashboardPage';
 import AssetsListPage from '../features/assets/pages/AssetsListPage';
@@ -44,41 +45,60 @@ function AppRoutes() {
       }>
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        
+        {/* Assets - Both Admin and User can view, only Admin can create/edit */}
         <Route path="/assets" element={<AssetsListPage />} />
-        <Route path="/assets/new" element={<AssetFormPage />} />
-        <Route path="/assets/bulk-upload" element={<AssetsBulkUploadPage />} />
         <Route path="/assets/:assetId" element={<AssetProfilePage />} />
-        <Route path="/assets/:assetId/edit" element={<AssetFormPage />} />
+        <Route path="/assets/new" element={<AdminRoute><AssetFormPage /></AdminRoute>} />
+        <Route path="/assets/bulk-upload" element={<AdminRoute><AssetsBulkUploadPage /></AdminRoute>} />
+        <Route path="/assets/:assetId/edit" element={<AdminRoute><AssetFormPage /></AdminRoute>} />
+        
+        {/* Inspections - Both Admin and User */}
         <Route path="/inspections" element={<InspectionsOverviewPage />} />
         <Route path="/inspections/new" element={<InspectionEntryPage />} />
         <Route path="/inspections/bulk-upload" element={<InspectionsBulkUploadPage />} />
-        <Route path="/rules-thresholds" element={<RulesListPage />} />
-        <Route path="/rules-thresholds/new" element={<RuleFormPage />} />
-        <Route path="/rules-thresholds/:ruleId/edit" element={<RuleFormPage />} />
-        <Route
-          path="/rules-thresholds/:ruleId/simulate"
-          element={<RuleSimulationPage />}
-        />
-        <Route path="/health-analytics" element={<HealthAnalyticsPage />} />
-        <Route path="/anomalies" element={<AnomaliesPage />} />
+        
+        {/* Rules & Thresholds - Admin Only */}
+        <Route path="/rules-thresholds" element={<AdminRoute><RulesListPage /></AdminRoute>} />
+        <Route path="/rules-thresholds/new" element={<AdminRoute><RuleFormPage /></AdminRoute>} />
+        <Route path="/rules-thresholds/:ruleId/edit" element={<AdminRoute><RuleFormPage /></AdminRoute>} />
+        <Route path="/rules-thresholds/:ruleId/simulate" element={<AdminRoute><RuleSimulationPage /></AdminRoute>} />
+        
+        {/* Health Analytics - Admin Only */}
+        <Route path="/health-analytics" element={<AdminRoute><HealthAnalyticsPage /></AdminRoute>} />
+        
+        {/* Anomalies - Admin Only */}
+        <Route path="/anomalies" element={<AdminRoute><AnomaliesPage /></AdminRoute>} />
+        
+        {/* Alerts - Both Admin and User */}
         <Route path="/alerts" element={<AlertsListPage />} />
         <Route path="/alerts/:alertId" element={<AlertDetailPage />} />
-        <Route
-          path="/maintenance-work-orders"
-          element={<MaintenanceWorkOrdersPage />}
-        />
+        
+        {/* Maintenance - Both Admin and User */}
+        <Route path="/maintenance-work-orders" element={<MaintenanceWorkOrdersPage />} />
         <Route path="/maintenance-work-orders/new" element={<CreateWorkOrderPage />} />
-        <Route path="/risk-prioritization" element={<RiskPrioritizationPage />} />
+        
+        {/* Risk - Admin Only */}
+        <Route path="/risk-prioritization" element={<AdminRoute><RiskPrioritizationPage /></AdminRoute>} />
+        
+        {/* Reports - Both (User has limited access handled in component) */}
         <Route path="/reports" element={<ReportsHomePage />} />
         <Route path="/reports/zone-summary" element={<ZoneSummaryPage />} />
         <Route path="/reports/asset-lifecycle" element={<AssetLifecycleReportPage />} />
         <Route path="/reports/historical-export" element={<HistoricalDataExportPage />} />
-        <Route path="/administration" element={<AdministrationDashboardPage />} />
-        <Route path="/administration/users/new" element={<UserFormPage />} />
-        <Route path="/administration/users/:userId/edit" element={<UserFormPage />} />
-        <Route path="/administration/system-config" element={<SystemConfigurationPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
+        
+        {/* Administration - Admin Only */}
+        <Route path="/administration" element={<AdminRoute><AdministrationDashboardPage /></AdminRoute>} />
+        <Route path="/administration/users/new" element={<AdminRoute><UserFormPage /></AdminRoute>} />
+        <Route path="/administration/users/:userId/edit" element={<AdminRoute><UserFormPage /></AdminRoute>} />
+        <Route path="/administration/system-config" element={<AdminRoute><SystemConfigurationPage /></AdminRoute>} />
+        
+        {/* Settings - Admin Only */}
+        <Route path="/settings" element={<AdminRoute><SettingsPage /></AdminRoute>} />
+        
+        {/* Profile - Both Admin and User */}
         <Route path="/profile" element={<UserProfilePage />} />
+        <Route path="/user-profile" element={<UserProfilePage />} />
       </Route>
 
       {/* Fallback - Redirect to login or dashboard */}

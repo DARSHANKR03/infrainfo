@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import MaintenanceCostForm from '../components/MaintenanceCostForm';
-import RepairReplaceSuggestion from '../components/RepairReplaceSuggestion';
 import WorkOrderForm from '../components/WorkOrderForm';
 import { createWorkOrder, getTechnicians } from '../../../shared/services/mockApi/maintenanceApi';
+import { listAssets } from '../../../shared/services/mockApi/assetsApi';
 
 const defaultForm = {
   title: '',
@@ -13,39 +12,30 @@ const defaultForm = {
   technician: '',
   status: 'Open',
   scheduledDate: '',
-  estimatedCost: ''
-};
-
-const defaultCost = {
   laborCost: '',
   materialCost: '',
-  downtimeCost: '',
-  replacementCost: ''
+  downtimeCost: ''
 };
 
 function CreateWorkOrderPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState(defaultForm);
-  const [cost, setCost] = useState(defaultCost);
   const [technicians, setTechnicians] = useState([]);
+  const [assets, setAssets] = useState([]);
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const load = async () => {
-      const list = await getTechnicians();
-      setTechnicians(list);
+      const [techList, assetList] = await Promise.all([
+        getTechnicians(),
+        listAssets()
+      ]);
+      setTechnicians(techList);
+      setAssets(assetList);
     };
     load();
   }, []);
-
-  const repairCost = useMemo(
-    () =>
-      Number(cost.laborCost || 0) +
-      Number(cost.materialCost || 0) +
-      Number(cost.downtimeCost || 0),
-    [cost]
-  );
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -55,10 +45,15 @@ function CreateWorkOrderPage() {
       return;
     }
 
+    // Calculate total cost from breakdown
+    const totalCost = Number(form.laborCost || 0) + 
+                     Number(form.materialCost || 0) + 
+                     Number(form.downtimeCost || 0);
+
     setSubmitting(true);
     await createWorkOrder({
       ...form,
-      estimatedCost: Number(form.estimatedCost || repairCost || 0)
+      estimatedCost: totalCost
     });
     setSubmitting(false);
     navigate('/maintenance-work-orders');
@@ -78,28 +73,13 @@ function CreateWorkOrderPage() {
         <WorkOrderForm
           form={form}
           technicians={technicians}
+          assets={assets}
           onChange={(field, value) => setForm((prev) => ({ ...prev, [field]: value }))}
           onSubmit={handleSubmit}
           submitting={submitting}
           submitLabel="Create Work Order"
           errors={errors}
         />
-      </div>
-
-      <div className="grid-2-3">
-        <div><MaintenanceCostForm
-            cost={cost}
-            onCostChange={(field, value) => setCost((prev) => ({ ...prev, [field]: value }))}
-          />
-        </div>
-        <div><RepairReplaceSuggestion
-            assetAge={12}
-            expectedLifespan={20}
-            repairCost={repairCost}
-            replacementCost={Number(cost.replacementCost || 0)}
-            criticality={form.priority === 'Emergency' || form.priority === 'High' ? 'High' : 'Medium'}
-          />
-        </div>
       </div>
     </div>
   );
@@ -114,9 +94,18 @@ function validate(values) {
   if (!values.technician) errors.technician = 'Technician is required.';
   if (!values.status) errors.status = 'Status is required.';
   if (!values.scheduledDate) errors.scheduledDate = 'Scheduled date is required.';
-  if (values.estimatedCost !== '' && Number(values.estimatedCost) < 0) {
-    errors.estimatedCost = 'Estimated cost cannot be negative.';
+  
+  // Validate cost fields
+  if (values.laborCost !== '' && Number(values.laborCost) < 0) {
+    errors.laborCost = 'Labor cost cannot be negative.';
   }
+  if (values.materialCost !== '' && Number(values.materialCost) < 0) {
+    errors.materialCost = 'Material cost cannot be negative.';
+  }
+  if (values.downtimeCost !== '' && Number(values.downtimeCost) < 0) {
+    errors.downtimeCost = 'Downtime cost cannot be negative.';
+  }
+  
   return errors;
 }
 

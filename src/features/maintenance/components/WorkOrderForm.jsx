@@ -1,14 +1,43 @@
+import { useMemo } from 'react';
 import FormField, { getInputClass } from '../../../shared/components/forms/FormField';
 
 function WorkOrderForm({
   form,
   technicians,
+  assets = [],
   onChange,
   onSubmit,
   submitting,
   submitLabel,
   errors
 }) {
+  // Handle asset selection - update both assetId and assetName
+  const handleAssetChange = (assetId) => {
+    const selectedAsset = assets.find(asset => asset.id === assetId);
+    if (selectedAsset) {
+      onChange('assetId', selectedAsset.id);
+      onChange('assetName', selectedAsset.assetName);
+    } else {
+      onChange('assetId', '');
+      onChange('assetName', '');
+    }
+  };
+
+  // Calculate total cost from labor, material, and downtime
+  const totalCost = useMemo(() => {
+    return Number(form.laborCost || 0) + 
+           Number(form.materialCost || 0) + 
+           Number(form.downtimeCost || 0);
+  }, [form.laborCost, form.materialCost, form.downtimeCost]);
+
+  // Cost breakdown data for visualization
+  const costBreakdown = useMemo(() => [
+    { key: 'Labor', value: Number(form.laborCost || 0), color: 'bg-accent-500' },
+    { key: 'Material', value: Number(form.materialCost || 0), color: 'bg-warning' },
+    { key: 'Downtime', value: Number(form.downtimeCost || 0), color: 'bg-danger' }
+  ], [form.laborCost, form.materialCost, form.downtimeCost]);
+
+  const maxCostValue = Math.max(...costBreakdown.map(item => item.value), 1);
   return (
     <form className="space-y-5" onSubmit={onSubmit}>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -20,17 +49,26 @@ function WorkOrderForm({
           />
         </FormField>
         <FormField label="Asset ID" error={errors.assetId}>
-          <input
+          <select
             value={form.assetId}
-            onChange={(event) => onChange('assetId', event.target.value)}
+            onChange={(event) => handleAssetChange(event.target.value)}
             className={getInputClass(errors.assetId)}
-          />
+          >
+            <option value="">Select asset</option>
+            {assets.map((asset) => (
+              <option key={asset.id} value={asset.id}>
+                {asset.id} - {asset.assetName}
+              </option>
+            ))}
+          </select>
         </FormField>
         <FormField label="Asset Name" error={errors.assetName}>
           <input
             value={form.assetName}
-            onChange={(event) => onChange('assetName', event.target.value)}
+            readOnly
+            placeholder="Auto-filled when asset selected"
             className={getInputClass(errors.assetName)}
+            style={{ backgroundColor: '#f8fafc', cursor: 'not-allowed' }}
           />
         </FormField>
         <FormField label="Priority" error={errors.priority}>
@@ -80,15 +118,117 @@ function WorkOrderForm({
             className={getInputClass(errors.scheduledDate)}
           />
         </FormField>
-        <FormField label="Estimated Cost" error={errors.estimatedCost}>
-          <input
-            type="number"
-            min="0"
-            value={form.estimatedCost}
-            onChange={(event) => onChange('estimatedCost', event.target.value)}
-            className={getInputClass(errors.estimatedCost)}
-          />
-        </FormField>
+      </div>
+
+      {/* Maintenance Cost Section */}
+      <div style={{ marginTop: '2rem' }}>
+        <h3 style={{ 
+          fontSize: '16px', 
+          fontWeight: 600, 
+          color: 'var(--primary-900)',
+          marginBottom: '1rem'
+        }}>
+          Maintenance Cost Breakdown
+        </h3>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <FormField label="Labor Cost" error={errors.laborCost}>
+            <input
+              type="number"
+              min="0"
+              value={form.laborCost}
+              onChange={(event) => onChange('laborCost', event.target.value)}
+              className={getInputClass(errors.laborCost)}
+              placeholder="0"
+            />
+          </FormField>
+          <FormField label="Material Cost" error={errors.materialCost}>
+            <input
+              type="number"
+              min="0"
+              value={form.materialCost}
+              onChange={(event) => onChange('materialCost', event.target.value)}
+              className={getInputClass(errors.materialCost)}
+              placeholder="0"
+            />
+          </FormField>
+          <FormField label="Downtime Cost" error={errors.downtimeCost}>
+            <input
+              type="number"
+              min="0"
+              value={form.downtimeCost}
+              onChange={(event) => onChange('downtimeCost', event.target.value)}
+              className={getInputClass(errors.downtimeCost)}
+              placeholder="0"
+            />
+          </FormField>
+        </div>
+
+        {/* Cost Summary */}
+        <div style={{
+          marginTop: '1.5rem',
+          padding: '1.25rem',
+          borderRadius: '0.75rem',
+          border: '1px solid var(--neutral-border)',
+          backgroundColor: '#f8fafc'
+        }}>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            marginBottom: '1rem'
+          }}>
+            <span style={{ 
+              fontSize: '14px', 
+              fontWeight: 600, 
+              color: 'var(--primary-700)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}>
+              Total Estimated Cost
+            </span>
+            <span style={{ 
+              fontSize: '24px', 
+              fontWeight: 700, 
+              color: 'var(--accent-500)'
+            }}>
+              {totalCost.toLocaleString()}
+            </span>
+          </div>
+
+          {/* Cost Breakdown Bars */}
+          <div style={{ marginTop: '1rem' }}>
+            {costBreakdown.map((item) => (
+              <div key={item.key} style={{ marginBottom: '0.75rem' }}>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  marginBottom: '0.25rem',
+                  fontSize: '12px',
+                  color: 'var(--primary-700)'
+                }}>
+                  <span>{item.key}</span>
+                  <span>{item.value.toLocaleString()}</span>
+                </div>
+                <div style={{
+                  height: '8px',
+                  borderRadius: '4px',
+                  backgroundColor: 'var(--neutral-border)',
+                  overflow: 'hidden'
+                }}>
+                  <div
+                    className={item.color}
+                    style={{
+                      height: '100%',
+                      width: `${(item.value / maxCostValue) * 100}%`,
+                      transition: 'width 0.3s ease',
+                      borderRadius: '4px'
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       <button
