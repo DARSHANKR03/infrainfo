@@ -1,451 +1,124 @@
-Infrastructure Health & Anomaly Analysis System
 
-LOGIN CREDITIONAL DETAILES
+# 🏗️ Infrastructure Health & Anomaly Analysis System
 
-ADMINISTRATOR
-NAME: A. Kumar
-LOGIN ID : admin@infrainfo.io
-PASSWORD : admin123
+**An Intelligent Urban Asset Monitoring & Predictive Maintenance Platform**
 
-USER 
-NAME: M. Sharma
-LOGIN ID : inspector@infrainfo.io
-PASSWORD : inspector123
+The **Infrastructure Health & Anomaly Analysis System** is a web-based platform designed to evaluate the operational condition of urban assets (bridges, roads, pipelines) using rule-based analytics and anomaly detection.
 
+Unlike traditional systems that require expensive IoT sensors, this platform leverages inspection data to provide **Health Scoring** and **Risk Prioritization**, making it an ideal solution for municipalities with limited hardware infrastructure.
 
-A web-based intelligent monitoring platform designed to evaluate the operational condition of urban infrastructure assets using rule-based analytics, anomaly detection, and health scoring.
+---
 
-This system helps city administrators monitor assets such as bridges, roads, pipelines, drainage systems, and utilities by analyzing inspection data and detecting abnormal conditions before failures occur.
+## 🔐 Demo Credentials
 
-The platform enables data-driven infrastructure management without requiring IoT hardware integration, making it practical for municipalities with limited sensor infrastructure.
+| Role | Login ID | Password |
+| --- | --- | --- |
+| **Administrator** | `admin@infrainfo.io` | `admin123` |
+| **Inspector (User)** | `inspector@infrainfo.io` | `inspector123` |
 
-Project Overview
+---
 
-Urban infrastructure assets such as flyovers, pipelines, drainage networks, and roads degrade over time due to environmental factors, usage stress, and aging materials. Many cities still rely on manual inspection records and reactive maintenance strategies, which can lead to delayed interventions and infrastructure failures.
+## 🚀 Key Features
 
-The Infrastructure Health & Anomaly Analysis System addresses this challenge by providing a centralized platform where infrastructure data can be collected, analyzed, and monitored.
+### 🛠️ Asset & Inspection Management
 
-The system uses:
+* **Digital Profiling:** Register and categorize assets (Bridges, Roads, Pipelines) with full lifecycle history.
+* **Smart Data Entry:** Parameter-based inspection forms with support for photo/document attachments.
+* **Bulk Processing:** CSV/Excel import for large-scale municipal data.
 
-rule-based threshold analysis
+### 🧠 Intelligence Engine
 
-anomaly detection
+* **Rule & Threshold Engine:** Multi-condition logic (AND/OR) to trigger alerts based on parameter deviations.
+* **Anomaly Detection:** Identifies sudden spikes, gradual degradation, and statistical outliers.
+* **Health Scoring:** Automated classification into four states:
+> **Healthy** → **Warning** → **Critical** → **Failed**
 
-asset health scoring
 
-risk prioritization
 
-maintenance tracking
+### 📊 Visualization & Reporting
 
-to help authorities detect problems early and prioritize maintenance activities efficiently.
+* **Risk Heatmaps:** Geographic or zone-wise visualization of asset criticality.
+* **Trend Analysis:** Historical graphs showing degradation patterns over time.
+* **Automated Reporting:** Export monthly health and maintenance performance reports to PDF/Excel.
 
-Key Features
-Asset Management
+---
 
-Register infrastructure assets
+## 🛠️ Technology Stack
 
-Categorize assets (Bridge, Road, Pipeline, Drainage, etc.)
+* **Frontend:** React.js, Tailwind CSS (for responsive UI), Chart.js/Recharts (for analytics).
+* **Backend:** Node.js, Express.js (REST API architecture).
+* **Database:** MongoDB or PostgreSQL (Scalable data storage).
+* **Version Control:** Git & GitHub.
 
-Assign assets to zones or wards
+---
 
-Asset lifecycle tracking
+## ⚙️ System Workflow
 
-Bulk asset upload (CSV/Excel)
+1. **Registration:** Assets are digitized and assigned to specific city zones.
+2. **Inspection:** Field inspectors input real-world parameters (e.g., crack width, corrosion level).
+3. **Analysis:** The Rule Engine evaluates data against safety thresholds.
+4. **Scoring:** Anomaly detection algorithms calculate a real-time **Health Index**.
+5. **Action:** The system generates automated **Work Orders** for assets in "Critical" state.
 
-Asset search and filtering
+---
 
-Asset digital profile with full history
+## 📋 Parameters Monitored
 
-Inspection & Data Collection
+The system tracks a wide array of structural and operational data points:
 
-Manual inspection entry forms
+| Structural | Mechanical/Fluid | Environmental |
+| --- | --- | --- |
+| Crack Width | Flow Rate | Temperature |
+| Vibration | Pipe Thickness | Humidity |
+| Tilt Angle | Pump Efficiency | Wind Load |
+| Strain/Displacement | Leakage Rate | Traffic Load |
 
-Configurable inspection templates
+---
 
-Parameter-based inspection data
+## 💻 Installation Guide
 
-Inspection scheduling
+Follow these steps to set up the project locally:
 
-Photo/document attachments
-
-Inspector remarks
-
-Inspection history tracking
-
-Rule & Threshold Engine
-
-Configurable monitoring rules
-
-Parameter threshold settings
-
-Multi-condition rule logic (AND / OR)
-
-Rule activation / deactivation
-
-Rule version control
-
-Rule simulation and testing
-
-Health Scoring & Classification
-
-Automated asset health score calculation
-
-Multi-parameter risk model
-
-Health classification:
-
-Healthy
-
-Warning
-
-Critical
-
-Failed
-
-Historical health trend tracking
-
-Zone-wise health summary
-
-Anomaly Detection
-
-Sudden parameter spike detection
-
-Gradual degradation detection
-
-Statistical outlier detection
-
-Maintenance overdue anomaly detection
-
-Parameter fluctuation analysis
-
-Repeated issue pattern detection
-
-Alerts & Notifications
-
-Threshold-based alerts
-
-Health score drop alerts
-
-Critical state alerts
-
-Escalation levels
-
-Alert acknowledgment system
-
-Alert history tracking
-
-Dashboard & Visualization
-
-Infrastructure health overview dashboard
-
-Healthy vs critical asset distribution
-
-Zone-wise performance monitoring
-
-Risk heatmap visualization
-
-Health trend graphs
-
-KPI metrics dashboard
-
-Maintenance & Work Orders
-
-Preventive maintenance scheduling
-
-Work order generation
-
-Work order assignment
-
-Maintenance progress tracking
-
-Maintenance completion logging
-
-Maintenance cost monitoring
-
-Risk & Prioritization
-
-Risk scoring model
-
-Asset criticality ranking
-
-Failure probability estimation
-
-Budget-based maintenance prioritization
-
-Resource allocation optimization
-
-Reporting
-
-Automated monthly reports
-
-Zone-wise infrastructure reports
-
-Critical asset reports
-
-Maintenance performance reports
-
-Custom report generation
-
-Export to PDF / Excel
-
-Role-Based Access Control
-Administrator
-
-Administrators manage the entire system.
-
-Capabilities include:
-
-User management
-
-Asset creation and configuration
-
-Rule and threshold configuration
-
-Health scoring setup
-
-System analytics
-
-Maintenance oversight
-
-Report generation
-
-System configuration
-
-User
-
-Users interact with operational data.
-
-Capabilities include:
-
-Viewing assigned assets
-
-Submitting inspection reports
-
-Monitoring alerts
-
-Updating maintenance tasks
-
-Viewing health analytics
-
-Accessing reports
-
-Parameters Monitored
-
-The system evaluates infrastructure health using multiple parameters such as:
-
-vibration
-
-temperature
-
-pressure
-
-corrosion
-
-crack width
-
-flow rate
-
-strain
-
-displacement
-
-tilt angle
-
-load stress
-
-humidity
-
-wind load
-
-leakage rate
-
-pipe thickness
-
-pump efficiency
-
-surface roughness
-
-pothole density
-
-voltage level
-
-current load
-
-power consumption
-
-maintenance delay
-
-inspection frequency
-
-traffic load
-
-failure frequency
-
-health index
-
-risk score
-
-These parameters help detect structural degradation, mechanical failure, environmental stress, and operational risks.
-
-Technology Stack
-
-Frontend
-
-React.js
-
-React Router
-
-CSS / Tailwind UI components
-
-Chart libraries for analytics visualization
-
-Backend (planned or extendable)
-
-Node.js
-
-Express.js
-
-Database (extendable)
-
-MongoDB / PostgreSQL
-
-Other Tools
-
-GitHub for version control
-
-CSV / Excel data import
-
-REST API architecture for future integrations
-
-System Workflow
-
-Infrastructure assets are registered in the system.
-
-Inspectors perform inspections and enter parameter data.
-
-The rule engine evaluates parameters using predefined thresholds.
-
-The system calculates asset health scores.
-
-Anomaly detection algorithms identify abnormal patterns.
-
-Alerts are generated for critical conditions.
-
-Maintenance work orders are created based on risk levels.
-
-Dashboards visualize infrastructure health across zones.
-
-Unique Innovation
-
-Unlike traditional asset management systems, this platform:
-
-Works without IoT hardware requirements
-
-Uses rule-based anomaly detection
-
-Provides health scoring for infrastructure assets
-
-Enables predictive maintenance planning
-
-Supports risk-based infrastructure prioritization
-
-This makes it practical for cities with limited sensor infrastructure but large infrastructure networks.
-
-Why This Solution Matters
-
-Existing asset management systems focus mainly on inventory tracking rather than infrastructure health intelligence.
-
-This project introduces:
-
-proactive infrastructure monitoring
-
-anomaly detection
-
-automated risk assessment
-
-predictive maintenance insights
-
-These capabilities help prevent infrastructure failures and improve city resilience.
-
-Real-World Impact
-
-The system can help:
-
-municipalities monitor infrastructure health
-
-prioritize maintenance based on risk
-
-reduce infrastructure failures
-
-improve public safety
-
-optimize maintenance budgets
-
-improve transparency in infrastructure management
-
-Future Scope
-
-Future improvements may include:
-
-IoT sensor integration
-
-AI-based predictive maintenance
-
-Remaining Useful Life estimation
-
-Digital twin models for infrastructure
-
-GIS-based infrastructure mapping
-
-Citizen complaint integration
-
-Mobile inspection applications
-
-Smart city platform integration
-
-Installation Guide
-
-Clone the repository
-
+1. **Clone the repository**
+```bash
 git clone https://github.com/DARSHANKR03/infrainfo.git
 
-Navigate into project directory
+```
 
+
+2. **Navigate to the directory**
+```bash
 cd infrainfo
 
-Install dependencies
+```
 
+
+3. **Install Dependencies**
+```bash
 npm install
 
-Run the development server
+```
 
+
+4. **Launch Application**
+```bash
 npm start
 
-Application will run at:
+```
 
-http://localhost:3000
-Contribution
 
-Contributions are welcome.
+*The app will be available at `http://localhost:3000*`
 
-Steps to contribute:
+---
 
-Fork the repository
+## 🔮 Future Scope
 
-Create a feature branch
+* **IoT Integration:** Real-time data streaming for automated sensors.
+* **AI/ML Models:** Remaining Useful Life (RUL) estimation using deep learning.
+* **Digital Twins:** 3D structural modeling for better visualization.
+* **GIS Mapping:** Full integration with ArcGIS for spatial analysis.
 
-Commit changes
+---
 
-Submit a pull request
+**Author:** **DARSHAN** *B.E. Computer Science and Engineering* [GitHub Profile](https://github.com/DARSHANKR03)
 
-License
-
-This project is released under the MIT License.
-
-Author
-
-DARSHAN
-B.E Computer Science and Engineering
-
-GitHub
-https://github.com/DARSHANKR03
