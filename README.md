@@ -1,4 +1,6 @@
-# LOGIN CREDITIONAL DETAILES
+Infrastructure Health & Anomaly Analysis System
+
+LOGIN CREDITIONAL DETAILES
 
 ADMINISTRATOR
 NAME: A. Kumar
@@ -10,73 +12,440 @@ NAME: M. Sharma
 LOGIN ID : inspector@infrainfo.io
 PASSWORD : inspector123
 
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A web-based intelligent monitoring platform designed to evaluate the operational condition of urban infrastructure assets using rule-based analytics, anomaly detection, and health scoring.
 
-## Available Scripts
+This system helps city administrators monitor assets such as bridges, roads, pipelines, drainage systems, and utilities by analyzing inspection data and detecting abnormal conditions before failures occur.
 
-In the project directory, you can run:
+The platform enables data-driven infrastructure management without requiring IoT hardware integration, making it practical for municipalities with limited sensor infrastructure.
 
-### `npm start`
+Project Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Urban infrastructure assets such as flyovers, pipelines, drainage networks, and roads degrade over time due to environmental factors, usage stress, and aging materials. Many cities still rely on manual inspection records and reactive maintenance strategies, which can lead to delayed interventions and infrastructure failures.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The Infrastructure Health & Anomaly Analysis System addresses this challenge by providing a centralized platform where infrastructure data can be collected, analyzed, and monitored.
 
-### `npm test`
+The system uses:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+rule-based threshold analysis
 
-### `npm run build`
+anomaly detection
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+asset health scoring
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+risk prioritization
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+maintenance tracking
 
-### `npm run eject`
+to help authorities detect problems early and prioritize maintenance activities efficiently.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Key Features
+Asset Management
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Register infrastructure assets
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Categorize assets (Bridge, Road, Pipeline, Drainage, etc.)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Assign assets to zones or wards
 
-## Learn More
+Asset lifecycle tracking
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Bulk asset upload (CSV/Excel)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Asset search and filtering
 
-### Code Splitting
+Asset digital profile with full history
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Inspection & Data Collection
 
-### Analyzing the Bundle Size
+Manual inspection entry forms
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Configurable inspection templates
 
-### Making a Progressive Web App
+Parameter-based inspection data
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Inspection scheduling
 
-### Advanced Configuration
+Photo/document attachments
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Inspector remarks
 
-### Deployment
+Inspection history tracking
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Rule & Threshold Engine
 
-### `npm run build` fails to minify
+Configurable monitoring rules
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Parameter threshold settings
+
+Multi-condition rule logic (AND / OR)
+
+Rule activation / deactivation
+
+Rule version control
+
+Rule simulation and testing
+
+Health Scoring & Classification
+
+Automated asset health score calculation
+
+Multi-parameter risk model
+
+Health classification:
+
+Healthy
+
+Warning
+
+Critical
+
+Failed
+
+Historical health trend tracking
+
+Zone-wise health summary
+
+Anomaly Detection
+
+Sudden parameter spike detection
+
+Gradual degradation detection
+
+Statistical outlier detection
+
+Maintenance overdue anomaly detection
+
+Parameter fluctuation analysis
+
+Repeated issue pattern detection
+
+Alerts & Notifications
+
+Threshold-based alerts
+
+Health score drop alerts
+
+Critical state alerts
+
+Escalation levels
+
+Alert acknowledgment system
+
+Alert history tracking
+
+Dashboard & Visualization
+
+Infrastructure health overview dashboard
+
+Healthy vs critical asset distribution
+
+Zone-wise performance monitoring
+
+Risk heatmap visualization
+
+Health trend graphs
+
+KPI metrics dashboard
+
+Maintenance & Work Orders
+
+Preventive maintenance scheduling
+
+Work order generation
+
+Work order assignment
+
+Maintenance progress tracking
+
+Maintenance completion logging
+
+Maintenance cost monitoring
+
+Risk & Prioritization
+
+Risk scoring model
+
+Asset criticality ranking
+
+Failure probability estimation
+
+Budget-based maintenance prioritization
+
+Resource allocation optimization
+
+Reporting
+
+Automated monthly reports
+
+Zone-wise infrastructure reports
+
+Critical asset reports
+
+Maintenance performance reports
+
+Custom report generation
+
+Export to PDF / Excel
+
+Role-Based Access Control
+Administrator
+
+Administrators manage the entire system.
+
+Capabilities include:
+
+User management
+
+Asset creation and configuration
+
+Rule and threshold configuration
+
+Health scoring setup
+
+System analytics
+
+Maintenance oversight
+
+Report generation
+
+System configuration
+
+User
+
+Users interact with operational data.
+
+Capabilities include:
+
+Viewing assigned assets
+
+Submitting inspection reports
+
+Monitoring alerts
+
+Updating maintenance tasks
+
+Viewing health analytics
+
+Accessing reports
+
+Parameters Monitored
+
+The system evaluates infrastructure health using multiple parameters such as:
+
+vibration
+
+temperature
+
+pressure
+
+corrosion
+
+crack width
+
+flow rate
+
+strain
+
+displacement
+
+tilt angle
+
+load stress
+
+humidity
+
+wind load
+
+leakage rate
+
+pipe thickness
+
+pump efficiency
+
+surface roughness
+
+pothole density
+
+voltage level
+
+current load
+
+power consumption
+
+maintenance delay
+
+inspection frequency
+
+traffic load
+
+failure frequency
+
+health index
+
+risk score
+
+These parameters help detect structural degradation, mechanical failure, environmental stress, and operational risks.
+
+Technology Stack
+
+Frontend
+
+React.js
+
+React Router
+
+CSS / Tailwind UI components
+
+Chart libraries for analytics visualization
+
+Backend (planned or extendable)
+
+Node.js
+
+Express.js
+
+Database (extendable)
+
+MongoDB / PostgreSQL
+
+Other Tools
+
+GitHub for version control
+
+CSV / Excel data import
+
+REST API architecture for future integrations
+
+System Workflow
+
+Infrastructure assets are registered in the system.
+
+Inspectors perform inspections and enter parameter data.
+
+The rule engine evaluates parameters using predefined thresholds.
+
+The system calculates asset health scores.
+
+Anomaly detection algorithms identify abnormal patterns.
+
+Alerts are generated for critical conditions.
+
+Maintenance work orders are created based on risk levels.
+
+Dashboards visualize infrastructure health across zones.
+
+Unique Innovation
+
+Unlike traditional asset management systems, this platform:
+
+Works without IoT hardware requirements
+
+Uses rule-based anomaly detection
+
+Provides health scoring for infrastructure assets
+
+Enables predictive maintenance planning
+
+Supports risk-based infrastructure prioritization
+
+This makes it practical for cities with limited sensor infrastructure but large infrastructure networks.
+
+Why This Solution Matters
+
+Existing asset management systems focus mainly on inventory tracking rather than infrastructure health intelligence.
+
+This project introduces:
+
+proactive infrastructure monitoring
+
+anomaly detection
+
+automated risk assessment
+
+predictive maintenance insights
+
+These capabilities help prevent infrastructure failures and improve city resilience.
+
+Real-World Impact
+
+The system can help:
+
+municipalities monitor infrastructure health
+
+prioritize maintenance based on risk
+
+reduce infrastructure failures
+
+improve public safety
+
+optimize maintenance budgets
+
+improve transparency in infrastructure management
+
+Future Scope
+
+Future improvements may include:
+
+IoT sensor integration
+
+AI-based predictive maintenance
+
+Remaining Useful Life estimation
+
+Digital twin models for infrastructure
+
+GIS-based infrastructure mapping
+
+Citizen complaint integration
+
+Mobile inspection applications
+
+Smart city platform integration
+
+Installation Guide
+
+Clone the repository
+
+git clone https://github.com/DARSHANKR03/infrainfo.git
+
+Navigate into project directory
+
+cd infrainfo
+
+Install dependencies
+
+npm install
+
+Run the development server
+
+npm start
+
+Application will run at:
+
+http://localhost:3000
+Contribution
+
+Contributions are welcome.
+
+Steps to contribute:
+
+Fork the repository
+
+Create a feature branch
+
+Commit changes
+
+Submit a pull request
+
+License
+
+This project is released under the MIT License.
+
+Author
+
+DARSHAN
+B.E Computer Science and Engineering
+
+GitHub
+https://github.com/DARSHANKR03
