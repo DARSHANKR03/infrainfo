@@ -1,3 +1,15 @@
+# LOGIN CREDITIONAL DETAILES
+
+ADMINISTRATOR
+NAME: A. Kumar
+LOGIN ID : admin@infrainfo.io
+PASSWORD : admin123
+
+USER 
+NAME: M. Sharma
+LOGIN ID : inspector@infrainfo.io
+PASSWORD : inspector123
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
